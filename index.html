@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!-- ★ GitHub에 올리는 「앱 설치용 시작 페이지」예요. Apps Script에 붙여넣지 마세요! (Apps Script에는 한 단계 위 폴더의 index.html) -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>생태지도</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2F7D4F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="생태지도">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+  html, body { margin: 0; height: 100%; background: #F6F4EC; color: #1F2A1F;
+    font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+  #app { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: #F6F4EC; }
+  #splash { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; background: #F6F4EC; text-align: center; padding: 24px; transition: opacity .3s; }
+  #splash img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
+  #splash h1 { margin: 6px 0 0; font-size: 22px; }
+  #splash p { margin: 0; color: #6B766B; font-size: 15px; }
+  #help { display: none; margin-top: 18px; }
+  #help a { display: inline-block; background: #2F7D4F; color: #fff; text-decoration: none; padding: 12px 20px;
+    border-radius: 12px; font-weight: 700; }
+  .hide { opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<iframe id="app" title="우리 학교 생태 지도" allow="geolocation; camera; clipboard-write"></iframe>
+<div id="splash">
+  <img src="icon-192.png" alt="">
+  <h1>우리 학교 생태 지도</h1>
+  <p>불러오는 중…</p>
+  <div id="help">
+    <p style="margin-bottom:12px">오래 걸리면 아래 버튼으로 바로 열어 주세요.</p>
+    <a id="direct" href="#">앱 바로 열기</a>
+  </div>
+</div>
+<script>
+  // ★ 학생용 웹 앱 주소 (Apps Script → 배포 관리에 나오는 /exec 주소). 다른 학교에서 쓸 때는 이 줄만 바꾸세요.
+  var APP_URL = 'https://script.google.com/macros/s/AKfycbyNnsfSEtA23fcl2srlHclL1IP7H3VIAbZLPkoPZ0e98-XXsbQTimlsis8HRcdEUmHH/exec';
+
+  var frame = document.getElementById('app');
+  var splash = document.getElementById('splash');
+
+  // 이 파일이 실수로 Apps Script에 들어간 경우 → 안내만 보여 주고 멈춤
+  if (/googleusercontent\.com$|script\.google\.com$/.test(location.hostname)) {
+    splash.innerHTML = '<h1>⚠️ 파일이 바뀌었어요</h1><p style="max-width:320px;line-height:1.6">이 화면은 GitHub에 올리는 「앱 설치용 시작 페이지」예요.<br>' +
+      'Apps Script의 index.html에는 바탕화면 「우리동네_생태지도」 폴더 <b>바로 안의 index.html</b>을 붙여넣어 주세요.</p>';
+    throw new Error('launcher-in-apps-script');
+  }
+  document.getElementById('direct').href = APP_URL;
+  frame.addEventListener('load', function () { setTimeout(function () { splash.classList.add('hide'); }, 600); });
+  frame.src = APP_URL;
+  setTimeout(function () { document.getElementById('help').style.display = 'block'; }, 12000);
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

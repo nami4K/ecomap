@@ -1,0 +1,17 @@
+{
+  "name": "우리 학교 생태 지도",
+  "short_name": "생태지도",
+  "description": "학교 주변 생물을 찍어 AI 힌트로 찾고, 친구들과 생태 지도와 도감을 만들어요.",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F4EC",
+  "theme_color": "#2F7D4F",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
